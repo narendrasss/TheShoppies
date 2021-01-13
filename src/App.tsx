@@ -2,25 +2,17 @@ import React from 'react'
 import { useDebounce } from 'use-debounce'
 import './App.css'
 
-import getMovies from './services/movies'
-import type { Movie } from './services/movies'
+import useMovies from './services/movies'
+import useNominations from './services/nominations'
+
+const DELAY = 1000
 
 function App() {
   const [searchValue, setSearchValue] = React.useState('')
-  const [debouncedSearch] = useDebounce(searchValue, 1000)
+  const [debouncedSearch] = useDebounce(searchValue, DELAY)
 
-  const [results, setResults] = React.useState<Movie[]>([])
-  const [nominations, setNominations] = React.useState<Record<string, Movie>>(
-    {}
-  )
-
-  React.useEffect(() => {
-    if (debouncedSearch.length) {
-      getMovies(debouncedSearch).then(setResults)
-    } else {
-      setResults([])
-    }
-  }, [debouncedSearch])
+  const movies = useMovies(debouncedSearch)
+  const nominations = useNominations()
 
   return (
     <main>
@@ -39,16 +31,27 @@ function App() {
       <section>
         <h1>Results for {searchValue}</h1>
         <ul>
-          {results.map((movie) => (
-            <li key={movie.id}>{movie.title}</li>
+          {movies.map((movie) => (
+            <li key={movie.id}>
+              <h1>{movie.title}</h1>
+              <button
+                onClick={() => nominations.add(movie)}
+                disabled={nominations.has(movie)}
+              >
+                Nominate
+              </button>
+            </li>
           ))}
         </ul>
       </section>
       <section>
         <h1>Nominations</h1>
         <ul>
-          {Object.values(nominations).map((movie) => (
-            <li key={movie.id}>{movie.title}</li>
+          {Object.values(nominations.movies).map((movie) => (
+            <li key={movie.id}>
+              <h1>{movie.title}</h1>
+              <button onClick={() => nominations.remove(movie)}>Remove</button>
+            </li>
           ))}
         </ul>
       </section>
