@@ -8,6 +8,7 @@ import type { Nominations } from '../services/nominations'
 
 type NominationsListProps = {
   nominations: Nominations
+  animate?: boolean
 }
 
 const variants: Variants = {
@@ -21,7 +22,10 @@ const variants: Variants = {
   },
 }
 
-export default function NominationsList({ nominations }: NominationsListProps) {
+export default function NominationsList({
+  nominations,
+  animate = false,
+}: NominationsListProps) {
   const count = Object.keys(nominations.movies).length
   if (count === 0) {
     return (
@@ -42,7 +46,7 @@ export default function NominationsList({ nominations }: NominationsListProps) {
             className="Polaris-List__Item"
             variants={variants}
             animate="enter"
-            layout
+            layout={animate}
           >
             <Stack alignment="center" wrap={false}>
               <Stack.Item fill>

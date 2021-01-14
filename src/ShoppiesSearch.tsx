@@ -97,7 +97,7 @@ export default function ShoppiesSearch() {
           </Layout.Section>
           <Layout.Section oneHalf>
             <NominationsCard className="Polaris-Card" layout>
-              <NominationsList nominations={nominations} />
+              <NominationsList nominations={nominations} animate />
             </NominationsCard>
           </Layout.Section>
         </Layout>
