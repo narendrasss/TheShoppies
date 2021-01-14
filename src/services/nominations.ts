@@ -6,7 +6,10 @@ export type Nominations = {
   add: (movie: Movie) => void
   remove: (movie: Movie) => void
   has: (movie: Movie) => boolean
+  full: boolean
 }
+
+const MAX_NOMINATIONS = 5
 
 export default function useNominations(): Nominations {
   const [movies, setMovies] = React.useState<Record<string, Movie>>({})
@@ -24,5 +27,11 @@ export default function useNominations(): Nominations {
     return movies.hasOwnProperty(movie.id)
   }
 
-  return { movies, add, remove, has }
+  return {
+    movies,
+    add,
+    remove,
+    has,
+    full: Object.keys(movies).length === MAX_NOMINATIONS,
+  }
 }

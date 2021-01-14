@@ -1,5 +1,3 @@
-import React from 'react'
-
 // TODO: Change this to .env
 const API_KEY = '1ba7ba79'
 
@@ -104,21 +102,7 @@ const mock = {
   Response: 'True',
 }
 
-export default function useMovies(searchQuery: string) {
-  const [movies, setMovies] = React.useState<Movie[]>([])
-
-  React.useEffect(() => {
-    if (searchQuery.length) {
-      getMovies(searchQuery).then(setMovies)
-    } else {
-      setMovies([])
-    }
-  }, [searchQuery])
-
-  return movies
-}
-
-function getMovies(searchQuery: string): Promise<Movie[]> {
+export default function getMovies(searchQuery: string): Promise<Movie[]> {
   /* return new Promise((resolve, reject) => {
     fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`)
       .then((res) => res.json())

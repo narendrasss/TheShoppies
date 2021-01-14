@@ -1,35 +1,27 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useDebounce } from 'use-debounce'
 import {
   Page,
   Layout,
   Card,
-  List,
-  Button,
-  Stack,
-  Caption,
   Form,
   TextField,
   Icon,
   Tabs,
-  Heading,
   Badge,
+  Banner,
 } from '@shopify/polaris'
 import { SearchMinor } from '@shopify/polaris-icons'
 
-import useMovies from './services/movies'
+import NominationsList from './components/NominationsList'
+import MovieResults from './components/MovieResults'
+import Spacing from './components/Spacing'
 import useNominations from './services/nominations'
-import type { Nominations } from './services/nominations'
-
-const DELAY = 1000
 
 function App() {
   const [activeTabIndex, setActiveTabIndex] = React.useState(0)
   const [searchValue, setSearchValue] = React.useState('')
-  const [debouncedSearch] = useDebounce(searchValue, DELAY)
-
-  const movies = useMovies(debouncedSearch)
+  const [focused, setFocused] = React.useState(false)
   const nominations = useNominations()
 
   return (
@@ -37,17 +29,35 @@ function App() {
       <Page title="The Shoppies">
         <Layout>
           <Layout.Section>
+            <p>
+              Search for your favourite movies and nominate up to 5 of them for
+              the upcoming Shoppies award show!
+            </p>
+          </Layout.Section>
+          <Layout.Section>
             <Card sectioned>
-              <Form onSubmit={() => {}}>
-                <TextField
-                  label="Movie Title"
-                  type="search"
-                  placeholder="Search for a movie title"
-                  value={searchValue}
-                  onChange={setSearchValue}
-                  prefix={<Icon source={SearchMinor} />}
-                />
-              </Form>
+              <Spacing>
+                <Form onSubmit={() => {}}>
+                  <TextField
+                    focused={focused}
+                    label="Movie Title"
+                    type="search"
+                    placeholder="Search for a movie title"
+                    value={searchValue}
+                    onChange={setSearchValue}
+                    prefix={<Icon source={SearchMinor} />}
+                    onBlur={() => setFocused(false)}
+                  />
+                </Form>
+              </Spacing>
+              {nominations.full && (
+                <Banner title="Thanks for your nominations!" status="success">
+                  <p>
+                    If you've made a mistake, remove one of your nominations and
+                    add another.
+                  </p>
+                </Banner>
+              )}
             </Card>
           </Layout.Section>
           <Layout.Section oneHalf>
@@ -74,31 +84,11 @@ function App() {
                 />
               </TabsContainer>
               {activeTabIndex === 0 ? (
-                <Card.Section>
-                  <MovieCardTitle>
-                    <Heading>Results for "{searchValue}"</Heading>
-                  </MovieCardTitle>
-                  <List>
-                    {movies.map((movie) => (
-                      <List.Item key={movie.id}>
-                        <Stack alignment="center" wrap={false}>
-                          <Stack.Item fill>
-                            {movie.title} <Caption>{movie.year}</Caption>
-                          </Stack.Item>
-                          <Stack.Item>
-                            <Button
-                              size="slim"
-                              onClick={() => nominations.add(movie)}
-                              disabled={nominations.has(movie)}
-                            >
-                              Nominate
-                            </Button>
-                          </Stack.Item>
-                        </Stack>
-                      </List.Item>
-                    ))}
-                  </List>
-                </Card.Section>
+                <MovieResults
+                  searchValue={searchValue}
+                  nominations={nominations}
+                  onStartSearch={() => setFocused(true)}
+                />
               ) : (
                 <NominationsList nominations={nominations} />
               )}
@@ -117,40 +107,10 @@ function App() {
   )
 }
 
-function NominationsList({ nominations }: { nominations: Nominations }) {
-  return (
-    <Card.Section>
-      <MovieCardTitle>
-        <Heading>Nominations</Heading>
-      </MovieCardTitle>
-      <List>
-        {Object.values(nominations.movies).map((movie) => (
-          <List.Item key={movie.id}>
-            <Stack alignment="center" wrap={false}>
-              <Stack.Item fill>
-                {movie.title} <Caption>{movie.year}</Caption>
-              </Stack.Item>
-              <Stack.Item>
-                <Button size="slim" onClick={() => nominations.remove(movie)}>
-                  Remove
-                </Button>
-              </Stack.Item>
-            </Stack>
-          </List.Item>
-        ))}
-      </List>
-    </Card.Section>
-  )
-}
-
 export default App
 
 const Main = styled.main`
   padding: 16px;
-`
-
-const MovieCardTitle = styled.header`
-  margin-bottom: 16px;
 `
 
 const TabsContainer = styled.section`
