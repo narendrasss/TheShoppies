@@ -18,7 +18,7 @@ import MovieResults from './components/MovieResults'
 import Spacing from './components/Spacing'
 import useNominations from './services/nominations'
 
-function App() {
+export default function ShoppiesSearch() {
   const [activeTabIndex, setActiveTabIndex] = React.useState(0)
   const [searchValue, setSearchValue] = React.useState('')
   const [focused, setFocused] = React.useState(false)
@@ -107,8 +107,6 @@ function App() {
   )
 }
 
-export default App
-
 const Main = styled.main`
   padding: 16px;
 `
@@ -119,7 +117,9 @@ const TabsContainer = styled.section`
   }
 `
 
-const NominationsColumn = styled.section`
+const NominationsColumn = styled.section.attrs({
+  'data-testid': 'nominations',
+})`
   display: none;
 
   @media screen and (min-width: 1024px) {

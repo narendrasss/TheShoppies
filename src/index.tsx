@@ -4,12 +4,12 @@ import { AppProvider } from '@shopify/polaris'
 import enTranslations from '@shopify/polaris/locales/en.json'
 import '@shopify/polaris/dist/styles.css'
 
-import App from './App'
+import ShoppiesSearch from './ShoppiesSearch'
 
 ReactDOM.render(
   <React.StrictMode>
     <AppProvider i18n={enTranslations}>
-      <App />
+      <ShoppiesSearch />
     </AppProvider>
   </React.StrictMode>,
   document.getElementById('root')

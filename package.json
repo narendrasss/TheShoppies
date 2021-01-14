@@ -47,5 +47,8 @@
     "@types/styled-components": "^5.1.7",
     "prettier": "^2.2.1",
     "typescript": "^4.1.3"
+  },
+  "jest": {
+    "resetMocks": false
   }
 }

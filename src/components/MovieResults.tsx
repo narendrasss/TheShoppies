@@ -96,20 +96,22 @@ export default function MovieResults({
         <List>
           {movies.map((movie) => (
             <List.Item key={movie.id}>
-              <Stack alignment="center" wrap={false}>
-                <Stack.Item fill>
-                  {movie.title} <Caption>{movie.year}</Caption>
-                </Stack.Item>
-                <Stack.Item>
-                  <Button
-                    size="slim"
-                    onClick={() => nominations.add(movie)}
-                    disabled={nominations.has(movie) || nominations.full}
-                  >
-                    Nominate
-                  </Button>
-                </Stack.Item>
-              </Stack>
+              <div data-testid={movie.title}>
+                <Stack alignment="center" wrap={false}>
+                  <Stack.Item fill>
+                    {movie.title} <Caption>{movie.year}</Caption>
+                  </Stack.Item>
+                  <Stack.Item>
+                    <Button
+                      size="slim"
+                      onClick={() => nominations.add(movie)}
+                      disabled={nominations.has(movie) || nominations.full}
+                    >
+                      Nominate
+                    </Button>
+                  </Stack.Item>
+                </Stack>
+              </div>
             </List.Item>
           ))}
         </List>
