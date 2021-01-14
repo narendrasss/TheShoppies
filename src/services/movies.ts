@@ -102,20 +102,32 @@ const mock = {
   Response: 'True',
 }
 
+const Errors = {
+  NotFound: 1,
+  TooManyResults: 2,
+}
+
 export default function getMovies(searchQuery: string): Promise<Movie[]> {
-  /* return new Promise((resolve, reject) => {
-    fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&s=${query}`)
+  return new Promise((resolve, reject) => {
+    fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&s=${searchQuery}`)
       .then((res) => res.json())
       .then((res) => {
         if (res.Response === 'True') {
-          return resolve(res.Search.map(parseMovie))
+          resolve(res.Search.map(parseMovie))
+        } else if (res.Error === 'Movie not found!') {
+          reject({
+            type: Errors.NotFound,
+            message: `Couldn't find a movie that matched ${searchQuery}.`,
+          })
         } else {
-          // TODO: Reject in this case
-          return resolve([])
+          reject({
+            type: Errors.TooManyResults,
+            message: `Found too many movies. Try typing a more specific movie title.`,
+          })
         }
       })
-  }) */
-  return Promise.resolve(mock.Search.map(parseMovie))
+  })
+  //return Promise.resolve(mock.Search.map(parseMovie))
 }
 
 function parseMovie(movieResult: MovieResult): Movie {

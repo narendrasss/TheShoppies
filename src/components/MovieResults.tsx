@@ -20,30 +20,46 @@ import Spacing from './Spacing'
 
 const DEBOUNCE_DELAY = 650
 
+type MovieResultsProps = {
+  searchValue: string
+  nominations: Nominations
+  onStartSearch: () => void
+}
+
+/**
+ * Fetches and displays a list of movie results given a `searchValue`. Also requires
+ * a `nominations` prop so movies can be nominated and so they know if they should
+ * be disabled.
+ */
 export default function MovieResults({
   searchValue,
   nominations,
   onStartSearch = () => {},
-}: {
-  searchValue: string
-  nominations: Nominations
-  onStartSearch: () => void
-}) {
+}: MovieResultsProps) {
   const [movies, setMovies] = React.useState<Movie[]>([])
   const [isLoading, setLoading] = React.useState(false)
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null)
+
   const debounced = useDebouncedCallback(() => {
-    getMovies(searchValue).then((results) => {
-      setLoading(false)
-      setMovies(results)
-    })
+    getMovies(searchValue)
+      .then((results) => {
+        setLoading(false)
+        setMovies(results)
+      })
+      .catch(({ message }) => {
+        setLoading(false)
+        setErrorMessage(message)
+      })
   }, DEBOUNCE_DELAY)
 
   React.useEffect(() => {
     if (searchValue.length) {
       setLoading(true)
+      setErrorMessage(null)
       debounced.callback()
     } else {
       setLoading(false)
+      setErrorMessage(null)
       setMovies([])
     }
     return () => debounced.cancel()
@@ -74,6 +90,8 @@ export default function MovieResults({
       </Spacing>
       {isLoading ? (
         <SkeletonBodyText lines={5} />
+      ) : errorMessage ? (
+        <p>{errorMessage}</p>
       ) : (
         <List>
           {movies.map((movie) => (
