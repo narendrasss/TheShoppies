@@ -16,7 +16,6 @@ import { SearchMinor } from '@shopify/polaris-icons'
 import NominationsList from './components/NominationsList'
 import MovieResults from './components/MovieResults'
 import Tabs from './components/Tabs'
-import Spacing from './components/Spacing'
 import useNominations from './services/nominations'
 
 const TabNames = {
@@ -42,7 +41,7 @@ export default function ShoppiesSearch() {
           </Layout.Section>
           <Layout.Section>
             <Card sectioned>
-              <Spacing>
+              <FormContainer>
                 <Form onSubmit={() => {}}>
                   <TextField
                     focused={focused}
@@ -55,7 +54,7 @@ export default function ShoppiesSearch() {
                     onBlur={() => setFocused(false)}
                   />
                 </Form>
-              </Spacing>
+              </FormContainer>
               {nominations.full && (
                 <Banner title="Thanks for your nominations!" status="success">
                   <p>
@@ -122,4 +121,8 @@ const NominationsCard = styled(motion.section).attrs({
   @media screen and (min-width: 1024px) {
     display: block;
   }
+`
+
+const FormContainer = styled.div`
+  margin-bottom: 16px;
 `

@@ -2,9 +2,9 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import type { Variants } from 'framer-motion'
 import { Card, Button, Stack, Caption } from '@shopify/polaris'
-import styled from 'styled-components'
 
 import type { Nominations } from '../services/nominations'
+import Heading from './Heading'
 
 type NominationsListProps = {
   nominations: Nominations
@@ -30,7 +30,7 @@ export default function NominationsList({
   if (count === 0) {
     return (
       <Card.Section>
-        <Heading>Nominations</Heading>
+        <Heading layout>Nominations</Heading>
         <motion.p layout>There are no nominations yet.</motion.p>
       </Card.Section>
     )
@@ -38,7 +38,7 @@ export default function NominationsList({
 
   return (
     <Card.Section>
-      <Heading>Nominations</Heading>
+      <Heading layout>Nominations</Heading>
       <motion.ul className="Polaris-List">
         {Object.values(nominations.movies).map((movie) => (
           <motion.li
@@ -64,10 +64,3 @@ export default function NominationsList({
     </Card.Section>
   )
 }
-
-const Heading = styled(motion.h2).attrs({
-  className: 'Polaris-Heading',
-  layout: true,
-})`
-  margin-bottom: 16px;
-`

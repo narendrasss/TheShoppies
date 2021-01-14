@@ -7,7 +7,6 @@ import {
   Button,
   Stack,
   Caption,
-  Heading,
   SkeletonBodyText,
   EmptyState,
 } from '@shopify/polaris'
@@ -16,7 +15,7 @@ import getMovies, { Movie } from '../services/movies'
 import type { Nominations } from '../services/nominations'
 import emptySearch from '../assets/empty-search.svg'
 
-import Spacing from './Spacing'
+import Heading from './Heading'
 
 const DEBOUNCE_DELAY = 650
 
@@ -68,9 +67,7 @@ export default function MovieResults({
   if (!searchValue.length) {
     return (
       <Card.Section>
-        <Spacing>
-          <Heading>Movies</Heading>
-        </Spacing>
+        <Heading>Movies</Heading>
         <NoSearch>
           <EmptyState
             image={emptySearch}
@@ -85,9 +82,7 @@ export default function MovieResults({
 
   return (
     <Card.Section>
-      <Spacing>
-        <Heading>Results for "{searchValue}"</Heading>
-      </Spacing>
+      <Heading>Results for "{searchValue}"</Heading>
       {isLoading ? (
         <SkeletonBodyText lines={5} />
       ) : errorMessage ? (
