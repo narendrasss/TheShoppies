@@ -1,7 +1,14 @@
 import React from 'react'
 import type { Movie } from './movies'
 
-export default function useNominations() {
+export type Nominations = {
+  movies: Record<string, Movie>
+  add: (movie: Movie) => void
+  remove: (movie: Movie) => void
+  has: (movie: Movie) => boolean
+}
+
+export default function useNominations(): Nominations {
   const [movies, setMovies] = React.useState<Record<string, Movie>>({})
 
   const add = (movie: Movie) => {
