@@ -1,6 +1,3 @@
-// TODO: Change this to .env
-const API_KEY = '1ba7ba79'
-
 export type Movie = {
   title: string
   year: string
@@ -24,7 +21,9 @@ const Errors = {
 
 export default function getMovies(searchQuery: string): Promise<Movie[]> {
   return new Promise((resolve, reject) => {
-    fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&s=${searchQuery}`)
+    fetch(
+      `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&s=${searchQuery}`
+    )
       .then((res) => res.json())
       .then((res) => {
         if (res.Response === 'True') {
