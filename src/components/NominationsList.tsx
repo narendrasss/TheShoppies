@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import type { Variants } from 'framer-motion'
-import { Button, Stack, Caption } from '@shopify/polaris'
+import { Card, Button, Stack, Caption } from '@shopify/polaris'
 import styled from 'styled-components'
 
 import type { Nominations } from '../services/nominations'
@@ -25,17 +25,17 @@ export default function NominationsList({ nominations }: NominationsListProps) {
   const count = Object.keys(nominations.movies).length
   if (count === 0) {
     return (
-      <Card>
+      <Card.Section>
         <Heading>Nominations</Heading>
         <motion.p layout>There are no nominations yet.</motion.p>
-      </Card>
+      </Card.Section>
     )
   }
 
   return (
-    <Card>
+    <Card.Section>
       <Heading>Nominations</Heading>
-      <motion.ul className="Polaris-List" layout>
+      <motion.ul className="Polaris-List">
         {Object.values(nominations.movies).map((movie) => (
           <motion.li
             key={movie.id}
@@ -57,14 +57,9 @@ export default function NominationsList({ nominations }: NominationsListProps) {
           </motion.li>
         ))}
       </motion.ul>
-    </Card>
+    </Card.Section>
   )
 }
-
-const Card = styled(motion.div).attrs({
-  className: 'Polaris-Card__Section',
-  layout: true,
-})``
 
 const Heading = styled(motion.h2).attrs({
   className: 'Polaris-Heading',

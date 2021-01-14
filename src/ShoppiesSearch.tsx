@@ -62,40 +62,38 @@ export default function ShoppiesSearch() {
             </Card>
           </Layout.Section>
           <Layout.Section oneHalf>
-            <motion.div layout="position">
-              <Card>
-                <TabsContainer>
-                  <Tabs
-                    tabs={[
-                      { id: 'results', content: <span>Results</span> },
-                      {
-                        id: 'nominations',
-                        content: (
-                          <span>
-                            Nominations{' '}
-                            <Badge size="small">
-                              {`${Object.values(nominations.movies).length}`}
-                            </Badge>
-                          </span>
-                        ),
-                      },
-                    ]}
-                    selected={activeTabIndex}
-                    onSelect={setActiveTabIndex}
-                    fitted
-                  />
-                </TabsContainer>
-                {activeTabIndex === 0 ? (
-                  <MovieResults
-                    searchValue={searchValue}
-                    nominations={nominations}
-                    onStartSearch={() => setFocused(true)}
-                  />
-                ) : (
-                  <NominationsList nominations={nominations} />
-                )}
-              </Card>
-            </motion.div>
+            <Card>
+              <TabsContainer>
+                <Tabs
+                  tabs={[
+                    { id: 'results', content: <span>Results</span> },
+                    {
+                      id: 'nominations',
+                      content: (
+                        <span>
+                          Nominations{' '}
+                          <Badge size="small">
+                            {`${Object.values(nominations.movies).length}`}
+                          </Badge>
+                        </span>
+                      ),
+                    },
+                  ]}
+                  selected={activeTabIndex}
+                  onSelect={setActiveTabIndex}
+                  fitted
+                />
+              </TabsContainer>
+              {activeTabIndex === 0 ? (
+                <MovieResults
+                  searchValue={searchValue}
+                  nominations={nominations}
+                  onStartSearch={() => setFocused(true)}
+                />
+              ) : (
+                <NominationsList nominations={nominations} />
+              )}
+            </Card>
           </Layout.Section>
           <Layout.Section oneHalf>
             <NominationsCard className="Polaris-Card" layout>
@@ -120,7 +118,6 @@ const TabsContainer = styled.section`
 
 const NominationsCard = styled(motion.section).attrs({
   className: 'Polaris-Card',
-  layout: true,
   'data-testid': 'nominations',
 })`
   display: none;
