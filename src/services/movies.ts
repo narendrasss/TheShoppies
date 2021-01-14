@@ -22,7 +22,7 @@ const Errors = {
 export default function getMovies(searchQuery: string): Promise<Movie[]> {
   return new Promise((resolve, reject) => {
     fetch(
-      `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&s=${searchQuery}`
+      `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_OMDB_API_KEY}&s=${searchQuery}`
     )
       .then((res) => res.json())
       .then((res) => {
