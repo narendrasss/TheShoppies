@@ -6,7 +6,6 @@ import {
   Form,
   TextField,
   Icon,
-  Tabs,
   Badge,
   Banner,
   Card,
@@ -16,11 +15,17 @@ import { SearchMinor } from '@shopify/polaris-icons'
 
 import NominationsList from './components/NominationsList'
 import MovieResults from './components/MovieResults'
+import Tabs from './components/Tabs'
 import Spacing from './components/Spacing'
 import useNominations from './services/nominations'
 
+const TabNames = {
+  Results: 'results',
+  Nominations: 'nominations',
+}
+
 export default function ShoppiesSearch() {
-  const [activeTabIndex, setActiveTabIndex] = React.useState(0)
+  const [activeTab, setActiveTab] = React.useState(TabNames.Results)
   const [searchValue, setSearchValue] = React.useState('')
   const [focused, setFocused] = React.useState(false)
   const nominations = useNominations()
@@ -64,27 +69,19 @@ export default function ShoppiesSearch() {
           <Layout.Section oneHalf>
             <Card>
               <TabsContainer>
-                <Tabs
-                  tabs={[
-                    { id: 'results', content: <span>Results</span> },
-                    {
-                      id: 'nominations',
-                      content: (
-                        <span>
-                          Nominations{' '}
-                          <Badge size="small">
-                            {`${Object.values(nominations.movies).length}`}
-                          </Badge>
-                        </span>
-                      ),
-                    },
-                  ]}
-                  selected={activeTabIndex}
-                  onSelect={setActiveTabIndex}
-                  fitted
-                />
+                <Tabs selected={activeTab} onSelect={setActiveTab}>
+                  <Tabs.Tab id={TabNames.Results}>Results</Tabs.Tab>
+                  <Tabs.Tab id={TabNames.Nominations}>
+                    <span>
+                      Nominations{' '}
+                      <Badge size="small">
+                        {`${Object.values(nominations.movies).length}`}
+                      </Badge>
+                    </span>
+                  </Tabs.Tab>
+                </Tabs>
               </TabsContainer>
-              {activeTabIndex === 0 ? (
+              {activeTab === TabNames.Results ? (
                 <MovieResults
                   searchValue={searchValue}
                   nominations={nominations}
