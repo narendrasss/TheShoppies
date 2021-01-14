@@ -1,35 +1,49 @@
 import React from 'react'
-import { Card, List, Button, Stack, Caption, Heading } from '@shopify/polaris'
+import { motion } from 'framer-motion'
+import type { Variants } from 'framer-motion'
+import { Button, Stack, Caption } from '@shopify/polaris'
+import styled from 'styled-components'
 
 import type { Nominations } from '../services/nominations'
 
-import Spacing from './Spacing'
-
 type NominationsListProps = {
   nominations: Nominations
+}
+
+const variants: Variants = {
+  enter: {
+    opacity: 1,
+    y: 0,
+  },
+  exit: {
+    opacity: 0,
+    y: 10,
+  },
 }
 
 export default function NominationsList({ nominations }: NominationsListProps) {
   const count = Object.keys(nominations.movies).length
   if (count === 0) {
     return (
-      <Card.Section>
-        <Spacing>
-          <Heading>Nominations</Heading>
-        </Spacing>
-        <p>There are no nominations yet.</p>
-      </Card.Section>
+      <Card>
+        <Heading>Nominations</Heading>
+        <motion.p layout>There are no nominations yet.</motion.p>
+      </Card>
     )
   }
 
   return (
-    <Card.Section>
-      <Spacing>
-        <Heading>Nominations</Heading>
-      </Spacing>
-      <List>
+    <Card>
+      <Heading>Nominations</Heading>
+      <motion.ul className="Polaris-List" layout>
         {Object.values(nominations.movies).map((movie) => (
-          <List.Item key={movie.id}>
+          <motion.li
+            key={movie.id}
+            className="Polaris-List__Item"
+            variants={variants}
+            animate="enter"
+            layout
+          >
             <Stack alignment="center" wrap={false}>
               <Stack.Item fill>
                 {movie.title} <Caption>{movie.year}</Caption>
@@ -40,9 +54,21 @@ export default function NominationsList({ nominations }: NominationsListProps) {
                 </Button>
               </Stack.Item>
             </Stack>
-          </List.Item>
+          </motion.li>
         ))}
-      </List>
-    </Card.Section>
+      </motion.ul>
+    </Card>
   )
 }
+
+const Card = styled(motion.div).attrs({
+  className: 'Polaris-Card__Section',
+  layout: true,
+})``
+
+const Heading = styled(motion.h2).attrs({
+  className: 'Polaris-Heading',
+  layout: true,
+})`
+  margin-bottom: 16px;
+`

@@ -63,7 +63,7 @@ export default function MovieResults({
       setMovies([])
     }
     return () => debounced.cancel()
-  }, [searchValue])
+  }, [searchValue, debounced])
 
   if (!searchValue.length) {
     return (

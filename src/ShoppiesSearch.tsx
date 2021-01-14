@@ -3,14 +3,15 @@ import styled from 'styled-components'
 import {
   Page,
   Layout,
-  Card,
   Form,
   TextField,
   Icon,
   Tabs,
   Badge,
   Banner,
+  Card,
 } from '@shopify/polaris'
+import { motion } from 'framer-motion'
 import { SearchMinor } from '@shopify/polaris-icons'
 
 import NominationsList from './components/NominationsList'
@@ -61,45 +62,45 @@ export default function ShoppiesSearch() {
             </Card>
           </Layout.Section>
           <Layout.Section oneHalf>
-            <Card>
-              <TabsContainer>
-                <Tabs
-                  tabs={[
-                    { id: 'results', content: <span>Results</span> },
-                    {
-                      id: 'nominations',
-                      content: (
-                        <span>
-                          Nominations{' '}
-                          <Badge size="small">
-                            {`${Object.values(nominations.movies).length}`}
-                          </Badge>
-                        </span>
-                      ),
-                    },
-                  ]}
-                  selected={activeTabIndex}
-                  onSelect={setActiveTabIndex}
-                  fitted
-                />
-              </TabsContainer>
-              {activeTabIndex === 0 ? (
-                <MovieResults
-                  searchValue={searchValue}
-                  nominations={nominations}
-                  onStartSearch={() => setFocused(true)}
-                />
-              ) : (
-                <NominationsList nominations={nominations} />
-              )}
-            </Card>
+            <motion.div layout="position">
+              <Card>
+                <TabsContainer>
+                  <Tabs
+                    tabs={[
+                      { id: 'results', content: <span>Results</span> },
+                      {
+                        id: 'nominations',
+                        content: (
+                          <span>
+                            Nominations{' '}
+                            <Badge size="small">
+                              {`${Object.values(nominations.movies).length}`}
+                            </Badge>
+                          </span>
+                        ),
+                      },
+                    ]}
+                    selected={activeTabIndex}
+                    onSelect={setActiveTabIndex}
+                    fitted
+                  />
+                </TabsContainer>
+                {activeTabIndex === 0 ? (
+                  <MovieResults
+                    searchValue={searchValue}
+                    nominations={nominations}
+                    onStartSearch={() => setFocused(true)}
+                  />
+                ) : (
+                  <NominationsList nominations={nominations} />
+                )}
+              </Card>
+            </motion.div>
           </Layout.Section>
           <Layout.Section oneHalf>
-            <NominationsColumn>
-              <Card>
-                <NominationsList nominations={nominations} />
-              </Card>
-            </NominationsColumn>
+            <NominationsCard className="Polaris-Card" layout>
+              <NominationsList nominations={nominations} />
+            </NominationsCard>
           </Layout.Section>
         </Layout>
       </Page>
@@ -117,7 +118,9 @@ const TabsContainer = styled.section`
   }
 `
 
-const NominationsColumn = styled.section.attrs({
+const NominationsCard = styled(motion.section).attrs({
+  className: 'Polaris-Card',
+  layout: true,
   'data-testid': 'nominations',
 })`
   display: none;
