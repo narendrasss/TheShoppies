@@ -94,6 +94,7 @@ The following packages came with create-react-app, but I thought it would be use
 ### Features
 
 - **Add pagination** — For simplicity, I currently limit the movie results to only the first page. In some cases this can lead to users not finding the movies they're looking for.
+- **SEO** — This app's SEO could be significantly improved. For starters, we can migrate to a static site generator (e.g. Next.js) so the default `index.html` page is populated with content. This could improve SEO for crawlers that don't have JavaScript enabled.
 
 ### Performance
 
