@@ -93,7 +93,7 @@ The following packages came with create-react-app, but I thought it would be use
 
 ### Features
 
-- **Add pagination** — For simplicity, I currently limit the movie results to the only the first page. In some cases this can lead to users not finding the movies they're looking for.
+- **Add pagination** — For simplicity, I currently limit the movie results to only the first page. In some cases this can lead to users not finding the movies they're looking for.
 
 ### Performance
 
