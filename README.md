@@ -6,6 +6,8 @@
 A small web app to nominate your favourite movies for the upcoming The Shoppies award show 🎉
 </p>
 
+Demo it [here](https://the-shoppies-nine.vercel.app/).
+
 ## Getting Started
 
 1. Clone the repo — `git clone https://github.com/narendrasss/TheShoppies`
